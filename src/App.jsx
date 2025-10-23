@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
+import { FiMusic, FiStar, FiMapPin, FiMail, FiPhone } from 'react-icons/fi'
 import ScrollPositionedScene from './components/ScrollPositionedScene'
 import DanceTileCard from './components/DanceTileCard'
 import Carousel from './components/Carousel'
@@ -113,16 +114,39 @@ function App() {
 
         {/* About Section */}
         <section className="section about-section" id="about">
-        <div className="section-container">
-          <h2 className="section-title">About KANA</h2>
-          <p className="section-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p className="section-text">
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-      </section>
+          <div className="section-container">
+            <h2 className="section-title">About KANA</h2>
+            <div className="about-content">
+              <div className="about-card">
+                <div className="about-card-icon">
+                  <FiMusic />
+                </div>
+                <h3 className="about-card-title">Our Story</h3>
+                <p className="about-card-text">
+                  KANA was born from a passion for bringing people together through music and unforgettable experiences. We've created a space where energy, creativity, and community thrive.
+                </p>
+              </div>
+              <div className="about-card">
+                <div className="about-card-icon">
+                  <FiStar />
+                </div>
+                <h3 className="about-card-title">The Experience</h3>
+                <p className="about-card-text">
+                  From world-class DJs to state-of-the-art sound systems, every detail is crafted to deliver an immersive nightlife experience that goes beyond the ordinary.
+                </p>
+              </div>
+              <div className="about-card">
+                <div className="about-card-icon">
+                  <FiMapPin />
+                </div>
+                <h3 className="about-card-title">The Venue</h3>
+                <p className="about-card-text">
+                  Located in the heart of the city, our premium venue combines cutting-edge technology with luxurious design to create the ultimate entertainment destination.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
       {/* Features Section with Dance Tiles */}
       <section className="section features-section" id="events">
@@ -187,11 +211,32 @@ function App() {
       <section className="section gallery-section" id="gallery">
         <div className="section-container">
           <h2 className="section-title">Gallery</h2>
+          <p className="section-text">Experience the energy and vibes from our unforgettable nights</p>
           <div className="gallery-grid">
-            <div className="gallery-placeholder">Image 1</div>
-            <div className="gallery-placeholder">Image 2</div>
-            <div className="gallery-placeholder">Image 3</div>
-            <div className="gallery-placeholder">Image 4</div>
+            <div className="gallery-item">
+              <img src="/images/gallery/party1.jpg" alt="Club night 1" />
+              <div className="gallery-overlay">
+                <span className="gallery-label">Electric Nights</span>
+              </div>
+            </div>
+            <div className="gallery-item">
+              <img src="/images/gallery/party2.jpg" alt="Club night 2" />
+              <div className="gallery-overlay">
+                <span className="gallery-label">VIP Experience</span>
+              </div>
+            </div>
+            <div className="gallery-item">
+              <img src="/images/gallery/party3.jpg" alt="Club night 3" />
+              <div className="gallery-overlay">
+                <span className="gallery-label">Live Performances</span>
+              </div>
+            </div>
+            <div className="gallery-item">
+              <img src="/images/gallery/party4.jpg" alt="Club night 4" />
+              <div className="gallery-overlay">
+                <span className="gallery-label">Dance Floor</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -201,9 +246,32 @@ function App() {
         <div className="section-container">
           <h2 className="section-title">Get In Touch</h2>
           <p className="section-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ready to experience the ultimate nightlife? Reach out for VIP reservations, event bookings, or general inquiries.
           </p>
-          <button className="contact-button">Contact Us</button>
+          <div className="contact-grid">
+            <div className="contact-card">
+              <div className="contact-icon">
+                <FiMail />
+              </div>
+              <h3 className="contact-label">Email</h3>
+              <p className="contact-info">info@kanaclub.com</p>
+            </div>
+            <div className="contact-card">
+              <div className="contact-icon">
+                <FiPhone />
+              </div>
+              <h3 className="contact-label">Phone</h3>
+              <p className="contact-info">+1 (555) 123-4567</p>
+            </div>
+            <div className="contact-card">
+              <div className="contact-icon">
+                <FiMapPin />
+              </div>
+              <h3 className="contact-label">Location</h3>
+              <p className="contact-info">Downtown District</p>
+            </div>
+          </div>
+          <button className="contact-button">Book VIP Table</button>
         </div>
       </section>
 
