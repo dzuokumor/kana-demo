@@ -374,6 +374,8 @@
   .scroll-helper {
     right: 1rem;
     width: 50px;
+    top: 35%;
+    height: 50%;
   }
 
   .scroll-helper-text {
