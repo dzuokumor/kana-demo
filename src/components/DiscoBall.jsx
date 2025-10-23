@@ -1,8 +1,8 @@
-import { useRef } from 'react'
+import { useRef, forwardRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 
-function DiscoBall({ position = [0, 0, 0] }) {
+const DiscoBall = forwardRef(({ position = [0, 0, 0] }, ref) => {
   const modelRef = useRef()
   const light1Ref = useRef()
   const light2Ref = useRef()
@@ -12,10 +12,8 @@ function DiscoBall({ position = [0, 0, 0] }) {
 
   console.log('DiscoBall component rendering with GLB model')
 
-  // Load the GLB disco ball model
   const { scene } = useGLTF('/models/disco-ball.glb')
 
-  // Reduce brightness of emissive materials in the model
   scene.traverse((child) => {
     if (child.isMesh && child.material) {
       if (child.material.emissive && child.material.emissiveIntensity > 0) {
@@ -24,20 +22,16 @@ function DiscoBall({ position = [0, 0, 0] }) {
     }
   })
 
-
   useFrame(({ clock }) => {
     const time = clock.getElapsedTime()
 
-    // Rotate the disco ball model
     if (modelRef.current) {
       modelRef.current.rotation.y = time * 0.3
     }
 
-    // Orbit colored lights - 5 lights at different speeds
     const orbitRadius = 3.0
     const orbitSpeed = 0.5
 
-    // Pink light
     if (light1Ref.current) {
       const angle1 = time * orbitSpeed
       light1Ref.current.position.x = Math.sin(angle1) * orbitRadius
@@ -45,7 +39,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
       light1Ref.current.position.y = 2
     }
 
-    // Cyan light
     if (light2Ref.current) {
       const angle2 = time * orbitSpeed + (Math.PI * 2 / 5)
       light2Ref.current.position.x = Math.sin(angle2) * orbitRadius
@@ -53,7 +46,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
       light2Ref.current.position.y = 1.5
     }
 
-    // Purple light
     if (light3Ref.current) {
       const angle3 = time * orbitSpeed + (Math.PI * 4 / 5)
       light3Ref.current.position.x = Math.sin(angle3) * orbitRadius
@@ -61,7 +53,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
       light3Ref.current.position.y = 1.8
     }
 
-    // Green light
     if (light4Ref.current) {
       const angle4 = time * orbitSpeed * 0.8 + (Math.PI * 6 / 5)
       light4Ref.current.position.x = Math.sin(angle4) * orbitRadius * 0.9
@@ -69,7 +60,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
       light4Ref.current.position.y = 1.2
     }
 
-    // Orange light
     if (light5Ref.current) {
       const angle5 = time * orbitSpeed * 1.2 + (Math.PI * 8 / 5)
       light5Ref.current.position.x = Math.sin(angle5) * orbitRadius * 1.1
@@ -80,9 +70,14 @@ function DiscoBall({ position = [0, 0, 0] }) {
 
   return (
     <group position={position}>
-      {/* GLB Disco Ball Model */}
       <primitive
-        ref={modelRef}
+        ref={(node) => {
+          modelRef.current = node
+          if (ref) {
+            if (typeof ref === 'function') ref(node)
+            else ref.current = node
+          }
+        }}
         object={scene.clone()}
         scale={6.75}
       />
@@ -96,7 +91,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
         castShadow
       />
 
-      {/* CYAN LIGHT - Orbiting */}
       <pointLight
         ref={light2Ref}
         color="#00ffff"
@@ -106,7 +100,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
         castShadow
       />
 
-      {/* PURPLE LIGHT - Orbiting */}
       <pointLight
         ref={light3Ref}
         color="#bf00ff"
@@ -116,7 +109,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
         castShadow
       />
 
-      {/* GREEN LIGHT - Orbiting */}
       <pointLight
         ref={light4Ref}
         color="#00ff88"
@@ -126,7 +118,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
         castShadow
       />
 
-      {/* ORANGE LIGHT - Orbiting */}
       <pointLight
         ref={light5Ref}
         color="#ff8800"
@@ -147,7 +138,6 @@ function DiscoBall({ position = [0, 0, 0] }) {
         shadow-mapSize-height={2048}
       />
 
-      {/* Side spotlights aimed at disco ball */}
       <spotLight
         position={[6, 3, 0]}
         angle={0.4}
@@ -167,9 +157,10 @@ function DiscoBall({ position = [0, 0, 0] }) {
       />
     </group>
   )
-}
+})
 
-// Preload the GLB model
+DiscoBall.displayName = 'DiscoBall'
+
 useGLTF.preload('/models/disco-ball.glb')
 
 export default DiscoBall

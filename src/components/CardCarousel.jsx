@@ -1,42 +1,57 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState, Suspense } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Html } from '@react-three/drei'
+import { Text3D, Center } from '@react-three/drei'
 import * as THREE from 'three'
-import './CardCarousel.css'
 
-function HtmlCard({ color, label, position, angle }) {
-  const cardRef = useRef()
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
-    e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
-  }
+function Text3DCard({ label, color }) {
+  const groupRef = useRef()
+  const [hovered, setHovered] = useState(false)
 
   return (
-    <Html
-      position={position}
-      transform
-      occlude={false}
-      zIndexRange={[0, 0]}
-      style={{
-        transition: 'none',
-        pointerEvents: 'auto'
-      }}
-    >
-      <div
-        ref={cardRef}
-        className="card-3d-spotlight"
-        onMouseMove={handleMouseMove}
-      >
-        <div className="card-content">
-          <h3>{label}</h3>
-        </div>
-      </div>
-    </Html>
+    <group ref={groupRef}>
+      <Suspense fallback={null}>
+        <Center>
+          <Text3D
+            font="/fonts/helvetiker_regular.typeface.json"
+            size={0.25}
+            height={0.05}
+            curveSegments={12}
+            bevelEnabled
+            bevelThickness={0.01}
+            bevelSize={0.01}
+            bevelOffset={0}
+            bevelSegments={5}
+            onClick={() => console.log(`Clicked ${label}`)}
+            onPointerEnter={() => {
+              setHovered(true)
+              document.body.style.cursor = 'pointer'
+            }}
+            onPointerLeave={() => {
+              setHovered(false)
+              document.body.style.cursor = 'default'
+            }}
+          >
+            {label}
+            <meshStandardMaterial
+              color={hovered ? '#ffffff' : '#dddddd'}
+              emissive={hovered ? color : '#000000'}
+              emissiveIntensity={hovered ? 0.6 : 0}
+              toneMapped={false}
+            />
+          </Text3D>
+        </Center>
+      </Suspense>
+
+      <mesh position={[0, 0, -0.15]}>
+        <planeGeometry args={[1.5, 0.7]} />
+        <meshStandardMaterial
+          color="#000000"
+          transparent
+          opacity={0.7}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </group>
   )
 }
 
@@ -52,8 +67,6 @@ function CardCarousel({ sphereRadius = 3.5 }) {
       { label: 'GALLERY', color: '#ff8800' },
     ]
 
-    const ringRadius = sphereRadius * 1.25
-
     return cards.map((card, index) => {
       const angle = (index / cards.length) * Math.PI * 2
 
@@ -62,17 +75,32 @@ function CardCarousel({ sphereRadius = 3.5 }) {
         angle: angle
       }
     })
-  }, [sphereRadius])
+  }, [])
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, camera }) => {
     const time = clock.getElapsedTime()
 
     if (cardsGroupRef.current) {
       cardsGroupRef.current.rotation.y = time * 0.15
+
+      cardsGroupRef.current.children.forEach((cardGroup) => {
+        const worldPos = new THREE.Vector3()
+        cardGroup.getWorldPosition(worldPos)
+
+        const cameraPos = camera.position.clone()
+        const ballPos = new THREE.Vector3(0, 0, 0)
+
+        const cardToBall = ballPos.sub(worldPos).normalize()
+        const cameraToBall = ballPos.clone().sub(cameraPos).normalize()
+
+        const angle = cameraToBall.angleTo(cardToBall)
+
+        cardGroup.visible = angle > Math.PI / 2.5
+      })
     }
   })
 
-  const ringRadius = sphereRadius * 1.25
+  const ringRadius = sphereRadius * 1.1
 
   return (
     <group ref={cardsGroupRef}>
@@ -82,12 +110,12 @@ function CardCarousel({ sphereRadius = 3.5 }) {
           position={[0, 0, 0]}
           rotation={[0, card.angle, 0]}
         >
-          <HtmlCard
-            color={card.color}
-            label={card.label}
-            position={[0, 0, ringRadius]}
-            angle={card.angle}
-          />
+          <group position={[0, 0, ringRadius]}>
+            <Text3DCard
+              label={card.label}
+              color={card.color}
+            />
+          </group>
         </group>
       ))}
     </group>
