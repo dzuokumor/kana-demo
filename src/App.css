@@ -1,8 +1,34 @@
 .app {
   width: 100%;
   min-height: 100vh;
-  background: #0a0514;
   position: relative;
+  overflow-x: hidden;
+}
+
+/* Fixed 3D Canvas Background */
+.canvas-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.canvas-background canvas {
+  pointer-events: auto;
+}
+
+/* Content Layer - Scrollable on top of 3D */
+.content-layer {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.content-layer > * {
+  pointer-events: auto;
 }
 
 /* Navigation - Clean Minimal Glassmorphism Design */
@@ -168,30 +194,36 @@
   justify-content: center;
   align-items: center;
   padding: 8rem 2rem 4rem;
-  z-index: 1;
+  background: transparent;
 }
 
 .hero-content {
   text-align: center;
   padding: 2rem;
   max-width: 800px;
+  background: rgba(10, 5, 20, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Disco Ball Showcase Section */
+/* Disco Ball Showcase Section - Spacer */
 .disco-ball-section {
   position: relative;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  z-index: 1;
+  background: transparent;
+  pointer-events: none;
 }
 
-.disco-ball-container {
+.disco-ball-spacer {
   width: 100%;
   height: 100vh;
   position: relative;
+  pointer-events: none;
 }
 
 .hero-title {
@@ -240,10 +272,11 @@
 .section {
   padding: 6rem 2rem;
   position: relative;
-  background: rgba(10, 5, 20, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 1;
+  background: rgba(10, 5, 20, 0.4);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .section-container {
@@ -277,18 +310,16 @@
 
 /* About Section */
 .about-section {
-  background: rgba(10, 5, 20, 0.4);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-top: 1px solid rgba(255, 0, 110, 0.1);
-  border-bottom: 1px solid rgba(255, 0, 110, 0.1);
+  background: rgba(10, 5, 20, 0.5);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
 }
 
 /* Features Section */
 .features-section {
-  background: rgba(10, 5, 20, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 5, 20, 0.4);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
 }
 
 .tiles-grid {
@@ -300,11 +331,10 @@
 
 /* Testimonials Section */
 .testimonials-section {
-  background: rgba(10, 5, 20, 0.35);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 5, 20, 0.5);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
   padding: 6rem 2rem;
-  border-top: 1px solid rgba(0, 255, 255, 0.1);
 }
 
 .carousel-wrapper {
@@ -317,9 +347,9 @@
 
 /* Gallery Section */
 .gallery-section {
-  background: rgba(10, 5, 20, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 5, 20, 0.4);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
 }
 
 .gallery-grid {
@@ -352,11 +382,10 @@
 
 /* Contact Section */
 .contact-section {
-  background: rgba(10, 5, 20, 0.4);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: rgba(10, 5, 20, 0.5);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
   text-align: center;
-  border-top: 1px solid rgba(191, 0, 255, 0.1);
 }
 
 .contact-button {
@@ -383,13 +412,12 @@
 
 /* Footer */
 .footer {
-  background: rgba(10, 5, 20, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 5, 20, 0.6);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding: 3rem 2rem;
   position: relative;
-  z-index: 1;
 }
 
 .footer-container {
@@ -431,6 +459,18 @@
 }
 
 @media (max-width: 768px) {
+  .canvas-background {
+    touch-action: none;
+  }
+
+  .disco-ball-section {
+    touch-action: none;
+  }
+
+  .disco-ball-spacer {
+    touch-action: none;
+  }
+
   .navbar {
     top: 1rem;
     width: 90%;

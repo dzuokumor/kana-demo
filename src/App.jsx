@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { PerspectiveCamera, OrbitControls, Environment } from '@react-three/drei'
-import { EffectComposer, Bloom, DepthOfField, Vignette } from '@react-three/postprocessing'
-import DiscoBall from './components/DiscoBall'
-import CardCarousel from './components/CardCarousel'
-import SuspensionString from './components/SuspensionString'
-import BackgroundEffects from './components/BackgroundEffects'
+import { OrbitControls } from '@react-three/drei'
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
+import ScrollPositionedScene from './components/ScrollPositionedScene'
 import DanceTileCard from './components/DanceTileCard'
 import Carousel from './components/Carousel'
 import DJPlayer from './components/DJPlayer'
@@ -43,82 +40,79 @@ function App() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero-section" id="home">
-        <div className="hero-content">
-          <h1 className="hero-title">
-            <span className="glow-text">KANA</span>
-          </h1>
-          <p className="hero-subtitle">Where The Night Comes Alive</p>
-          <p className="hero-description">
-            Experience the ultimate nightlife destination. Premium music, exclusive events, and unforgettable moments.
-          </p>
-        </div>
-      </section>
+      {/* Full-Page 3D Canvas - Atmospheric + Disco Ball */}
+      <div className="canvas-background">
+        <Canvas
+          shadows
+          style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'auto' }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance',
+            toneMapping: 2
+          }}
+          camera={{
+            position: [0, 4, 8],
+            fov: window.innerWidth <= 768 ? 85 : 75
+          }}
+        >
+          <color attach="background" args={['#0a0514']} />
+          <fog attach="fog" args={['#0a0514', 15, 45]} />
 
-      {/* Disco Ball Showcase Section */}
-      <section className="disco-ball-section">
-        <div className="disco-ball-container">
-          <Canvas
-            shadows
-            style={{ touchAction: 'none', background: '#0a0514' }}
-            gl={{
-              antialias: true,
-              alpha: false,
-              powerPreference: 'high-performance',
-              toneMapping: 2
-            }}
-            camera={{ position: [0, 2, 8], fov: 75 }}
-          >
-            <color attach="background" args={['#0a0514']} />
-            <fog attach="fog" args={['#0a0514', 15, 45]} />
+          <OrbitControls
+            enableZoom={false}
+            enablePan={true}
+            enableRotate={true}
+            autoRotate={false}
+            minDistance={window.innerWidth <= 768 ? 10 : 8}
+            maxDistance={window.innerWidth <= 768 ? 10 : 8}
+            rotateSpeed={window.innerWidth <= 768 ? 0.8 : 1}
+            enableDamping={true}
+            dampingFactor={0.05}
+          />
 
-            <OrbitControls
-              enableZoom={false}
-              enablePan={true}
-              enableRotate={true}
-              autoRotate={false}
-              minDistance={8}
-              maxDistance={8}
+          {/* Scroll-positioned scene with everything */}
+          <ScrollPositionedScene />
+
+          {/* Post-Processing Effects */}
+          <EffectComposer multisampling={0}>
+            <Bloom
+              intensity={1.5}
+              luminanceThreshold={0.15}
+              luminanceSmoothing={0.9}
             />
-
-            {/* Enhanced Lighting */}
-            <ambientLight intensity={0.05} color="#1a1a2e" />
-            <hemisphereLight
-              skyColor="#4a0e4e"
-              groundColor="#0a0514"
-              intensity={0.1}
+            <Vignette
+              darkness={0.5}
+              offset={0.3}
             />
+          </EffectComposer>
+        </Canvas>
+      </div>
 
-            {/* Environment map for chrome reflections */}
-            {/* <Environment preset="night" /> */}
+      {/* Content Layer */}
+      <div className="content-layer">
+        {/* Hero Section */}
+        <section className="hero-section" id="home">
+          <div className="hero-content">
+            <h1 className="hero-title">
+              <span className="glow-text">KANA</span>
+            </h1>
+            <p className="hero-subtitle">Where The Night Comes Alive</p>
+            <p className="hero-description">
+              Experience the ultimate nightlife destination. Premium music, exclusive events, and unforgettable moments.
+            </p>
+          </div>
+        </section>
 
-            {/* Background atmosphere - REMOVED due to 2D appearance */}
-            {/* <BackgroundEffects /> */}
+        {/* Disco Ball Showcase Section - Spacer */}
+        <section className="disco-ball-section">
+          <div className="disco-ball-spacer">
+            {/* Empty - disco ball is in the fixed background canvas */}
+          </div>
+        </section>
 
-            {/* 3D Scene Elements */}
-            <SuspensionString />
-            <DiscoBall position={[0, 0, 0]} />
-            <CardCarousel />
-
-            {/* Post-Processing Effects */}
-            <EffectComposer multisampling={0}>
-              <Bloom
-                intensity={1.5}
-                luminanceThreshold={0.15}
-                luminanceSmoothing={0.9}
-              />
-              <Vignette
-                darkness={0.5}
-                offset={0.3}
-              />
-            </EffectComposer>
-          </Canvas>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className="section about-section" id="about">
+        {/* About Section */}
+        <section className="section about-section" id="about">
         <div className="section-container">
           <h2 className="section-title">About KANA</h2>
           <p className="section-text">
@@ -213,17 +207,18 @@ function App() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-container">
-          <p>&copy; 2024 KANA Club. All rights reserved.</p>
-          <div className="social-links">
-            <a href="#" className="social-link">Instagram</a>
-            <a href="#" className="social-link">Facebook</a>
-            <a href="#" className="social-link">Twitter</a>
+        {/* Footer */}
+        <footer className="footer">
+          <div className="footer-container">
+            <p>&copy; 2024 KANA Club. All rights reserved.</p>
+            <div className="social-links">
+              <a href="#" className="social-link">Instagram</a>
+              <a href="#" className="social-link">Facebook</a>
+              <a href="#" className="social-link">Twitter</a>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
 
       {/* DJ Music Player */}
       <DJPlayer />
