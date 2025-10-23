@@ -6,9 +6,9 @@ function AtmosphericBackground() {
   const lightsRef = useRef([])
   const particlesRef = useRef()
 
-  // Create atmospheric particles
+  // Create atmospheric particles (reduced for performance)
   const particlesGeometry = new THREE.BufferGeometry()
-  const particleCount = 1000
+  const particleCount = 300
   const positions = new Float32Array(particleCount * 3)
 
   for (let i = 0; i < particleCount * 3; i += 3) {

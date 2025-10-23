@@ -44,8 +44,8 @@
 
 .nav-container {
   background: rgba(10, 10, 15, 0.4);
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   border-radius: 16px;
@@ -268,13 +268,134 @@
   margin: 0 auto;
 }
 
+/* Scroll Helper */
+.scroll-helper {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60%;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 10;
+  cursor: grab;
+}
+
+.scroll-helper:active {
+  cursor: grabbing;
+}
+
+.scroll-helper-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.3) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: scrollLinePulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollLinePulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.scroll-helper-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: scrollTextFloat 3s ease-in-out infinite;
+}
+
+@keyframes scrollTextFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+}
+
+.scroll-arrow {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  animation: scrollArrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollArrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+}
+
+.scroll-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.8);
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+}
+
+/* Mobile adjustments for scroll helper */
+@media (max-width: 768px) {
+  .scroll-helper {
+    right: 1rem;
+    width: 50px;
+  }
+
+  .scroll-helper-text {
+    padding: 0.75rem 0.4rem;
+  }
+
+  .scroll-label {
+    font-size: 0.65rem;
+  }
+
+  .scroll-arrow {
+    font-size: 1rem;
+  }
+}
+
 /* Sections */
 .section {
   padding: 6rem 2rem;
   position: relative;
   background: rgba(10, 5, 20, 0.3);
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -312,8 +433,8 @@
 /* About Section */
 .about-section {
   background: rgba(10, 5, 20, 0.25);
-  backdrop-filter: blur(50px) saturate(160%);
-  -webkit-backdrop-filter: blur(50px) saturate(160%);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
 }
 
 .about-content {
@@ -347,21 +468,11 @@
   align-items: center;
   justify-content: center;
   color: rgba(255, 255, 255, 0.8);
-  animation: float 3s ease-in-out infinite;
 }
 
 .about-card-icon svg {
   width: 3rem;
   height: 3rem;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 .about-card-title {
@@ -399,8 +510,8 @@
 /* Testimonials Section */
 .testimonials-section {
   background: rgba(10, 5, 20, 0.25);
-  backdrop-filter: blur(50px) saturate(160%);
-  -webkit-backdrop-filter: blur(50px) saturate(160%);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
   padding: 6rem 2rem;
 }
 
@@ -512,8 +623,8 @@
 /* Contact Section */
 .contact-section {
   background: rgba(10, 5, 20, 0.25);
-  backdrop-filter: blur(50px) saturate(160%);
-  -webkit-backdrop-filter: blur(50px) saturate(160%);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
   text-align: center;
 }
 
@@ -544,7 +655,6 @@
 .contact-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
-  animation: float 3s ease-in-out infinite;
 }
 
 .contact-label {
@@ -606,8 +716,8 @@
 /* Footer */
 .footer {
   background: rgba(10, 5, 20, 0.6);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding: 3rem 2rem;
   position: relative;

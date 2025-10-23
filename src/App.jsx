@@ -110,6 +110,16 @@ function App() {
           <div className="disco-ball-spacer">
             {/* Empty - disco ball is in the fixed background canvas */}
           </div>
+
+          {/* Scroll Helper */}
+          <div className="scroll-helper">
+            <div className="scroll-helper-line"></div>
+            <div className="scroll-helper-text">
+              <span className="scroll-arrow">↓</span>
+              <span className="scroll-label">SCROLL</span>
+              <span className="scroll-arrow">↓</span>
+            </div>
+          </div>
         </section>
 
         {/* About Section */}
