@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { PerspectiveCamera, OrbitControls, Environment } from '@react-three/drei'
 import { EffectComposer, Bloom, DepthOfField, Vignette } from '@react-three/postprocessing'
@@ -10,21 +11,34 @@ import Carousel from './components/Carousel'
 import './App.css'
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <div className="app">
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
           <div className="logo">KANA</div>
-          <ul className="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#contact">Contact</a></li>
+
+          {/* Hamburger Menu Button */}
+          <button
+            className={`hamburger ${menuOpen ? 'active' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
+            <li><a href="#home" onClick={() => setMenuOpen(false)}>Home</a></li>
+            <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
+            <li><a href="#events" onClick={() => setMenuOpen(false)}>Events</a></li>
+            <li><a href="#testimonials" onClick={() => setMenuOpen(false)}>Testimonials</a></li>
+            <li><a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a></li>
+            <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a></li>
           </ul>
-          <button className="nav-cta">Join Now</button>
         </div>
       </nav>
 
