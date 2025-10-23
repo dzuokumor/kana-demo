@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Primary Darkness (Base) */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a27;
+  --bg-overlay: #0f0f15;
+
+  /* Disco Neon Accents (Vibrant Highlights) */
+  --neon-pink: #ff006e;
+  --neon-cyan: #00f5ff;
+  --neon-purple: #bf00ff;
+  --neon-yellow: #ffea00;
+  --neon-green: #39ff14;
+  --neon-orange: #ff6d00;
+
+  /* Muted Disco (Toned-Down for UI) */
+  --disco-pink-muted: #ff006e40;
+  --disco-cyan-muted: #00f5ff30;
+  --disco-purple-muted: #bf00ff25;
+
+  /* Grays & Neutrals (Minimal Light) */
+  --text-primary: #e8e8f0;
+  --text-secondary: #a8a8b8;
+  --text-tertiary: #6a6a7a;
+  --border-dark: #252530;
+  --border-glow: #404050;
+
+  /* Gradients (Disco Effects) */
+  --gradient-disco: linear-gradient(
+    135deg,
+    #ff006e 0%,
+    #bf00ff 25%,
+    #00f5ff 50%,
+    #39ff14 75%,
+    #ffea00 100%
+  );
+
+  --gradient-dark-disco: linear-gradient(
+    180deg,
+    #0a0a0f 0%,
+    #1a1a27 50%,
+    #0a0a0f 100%
+  );
+
+  --gradient-radial-glow: radial-gradient(
+    circle at center,
+    #ff006e30 0%,
+    transparent 70%
+  );
+
+  /* Shadows & Glows (3D Depth) */
+  --shadow-dark: 0 4px 20px rgba(0, 0, 0, 0.8);
+  --shadow-neon-pink: 0 0 20px rgba(255, 0, 110, 0.3),
+                      0 0 40px rgba(255, 0, 110, 0.2);
+  --shadow-neon-cyan: 0 0 20px rgba(0, 245, 255, 0.3),
+                      0 0 40px rgba(0, 245, 255, 0.2);
+  --shadow-disco-multi: 0 0 10px rgba(255, 0, 110, 0.4),
+                        0 0 20px rgba(191, 0, 255, 0.3),
+                        0 0 30px rgba(0, 245, 255, 0.2);
+
+  /* Fonts - 70s/80s disco vibes */
+  --font-heading: 'Bebas Neue', 'Anton', 'Righteous', sans-serif;
+  --font-body: 'Poppins', 'Outfit', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-pink);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
+}
