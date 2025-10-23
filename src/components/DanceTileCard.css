@@ -28,18 +28,14 @@
   font-size: 1.8rem;
   font-weight: 400;
   margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: all 0.3s ease;
 }
 
 .dance-tile-card.hovered .tile-title {
-  background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.6));
+  color: #ffffff;
 }
 
 .tile-description {
@@ -47,47 +43,14 @@
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.7;
-  color: var(--text-secondary);
+  color: #cccccc;
   transition: color 0.3s ease;
 }
 
 .dance-tile-card.hovered .tile-description {
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
-.tile-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 0, 110, 0.4) 0%,
-    rgba(191, 0, 255, 0.2) 50%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.dance-tile-card.hovered .tile-glow {
-  opacity: 1;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0.8;
-  }
-}
 
 .dance-tile-wrapper:hover {
   transform: translateY(-10px);

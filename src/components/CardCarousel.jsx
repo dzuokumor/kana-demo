@@ -75,16 +75,23 @@ function CardCarousel({ sphereRadius = 3.5 }) {
           position={[0, 0, 0]}
           rotation={[0, card.angle, 0]}
         >
+          {/* Front side */}
           <mesh
             geometry={borderGeometry}
             castShadow
             receiveShadow
           >
-            <meshBasicMaterial
+            <meshPhysicalMaterial
               color={card.color}
               transparent
-              opacity={0.3}
-              side={THREE.DoubleSide}
+              opacity={0.2}
+              side={THREE.FrontSide}
+              metalness={0}
+              roughness={0.8}
+              transmission={0.7}
+              thickness={1.0}
+              emissive={card.color}
+              emissiveIntensity={0.15}
             />
           </mesh>
 
@@ -94,16 +101,59 @@ function CardCarousel({ sphereRadius = 3.5 }) {
             receiveShadow
           >
             <meshPhysicalMaterial
-              color="#ffffff"
-              metalness={0.25}
-              roughness={0.35}
-              clearcoat={0.3}
-              clearcoatRoughness={0.2}
-              emissive={card.color}
-              emissiveIntensity={0.4}
+              color="#000000"
+              metalness={0}
+              roughness={0.7}
               transparent
-              opacity={0.97}
-              side={THREE.DoubleSide}
+              opacity={0.4}
+              side={THREE.FrontSide}
+              transmission={0.8}
+              thickness={1.5}
+              clearcoat={0.8}
+              clearcoatRoughness={0.3}
+              ior={1.5}
+            />
+          </mesh>
+
+          {/* Back side */}
+          <mesh
+            geometry={borderGeometry}
+            castShadow
+            receiveShadow
+            rotation={[0, Math.PI, 0]}
+          >
+            <meshPhysicalMaterial
+              color={card.color}
+              transparent
+              opacity={0.2}
+              side={THREE.FrontSide}
+              metalness={0}
+              roughness={0.8}
+              transmission={0.7}
+              thickness={1.0}
+              emissive={card.color}
+              emissiveIntensity={0.15}
+            />
+          </mesh>
+
+          <mesh
+            geometry={cardGeometry}
+            castShadow
+            receiveShadow
+            rotation={[0, Math.PI, 0]}
+          >
+            <meshPhysicalMaterial
+              color="#000000"
+              metalness={0}
+              roughness={0.7}
+              transparent
+              opacity={0.4}
+              side={THREE.FrontSide}
+              transmission={0.8}
+              thickness={1.5}
+              clearcoat={0.8}
+              clearcoatRoughness={0.3}
+              ior={1.5}
             />
           </mesh>
         </group>

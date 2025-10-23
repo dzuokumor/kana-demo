@@ -12,7 +12,7 @@ function DanceTileCard({ title, description, delay = 0 }) {
     >
       <SpotlightCard
         className={`dance-tile-card ${isHovered ? 'hovered' : ''}`}
-        spotlightColor="rgba(255, 0, 110, 0.5)"
+        spotlightColor="rgba(255, 0, 110, 0.3)"
       >
         <div
           onMouseEnter={() => setIsHovered(true)}
@@ -22,7 +22,6 @@ function DanceTileCard({ title, description, delay = 0 }) {
             <h3 className="tile-title">{title}</h3>
             <p className="tile-description">{description}</p>
           </div>
-          <div className="tile-glow"></div>
         </div>
       </SpotlightCard>
     </div>
