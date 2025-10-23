@@ -274,14 +274,16 @@
   right: 2rem;
   top: 50%;
   transform: translateY(-50%);
-  height: 60%;
-  width: 60px;
+  height: 50%;
+  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: auto;
   z-index: 10;
   cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .scroll-helper:active {
@@ -293,101 +295,89 @@
   left: 50%;
   top: 0;
   transform: translateX(-50%);
-  width: 2px;
+  width: 1px;
   height: 100%;
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 20%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0.3) 80%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.15) 80%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: scrollLinePulse 2s ease-in-out infinite;
+  animation: scrollLinePulse 3s ease-in-out infinite;
 }
 
 @keyframes scrollLinePulse {
   0%, 100% {
-    opacity: 0.5;
+    opacity: 0.4;
   }
   50% {
-    opacity: 1;
+    opacity: 0.8;
   }
 }
 
-.scroll-helper-text {
+.scroll-helper-indicator {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 0.5rem;
-  background: rgba(10, 10, 15, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  animation: scrollTextFloat 3s ease-in-out infinite;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: scrollIndicatorPulse 2s ease-in-out infinite;
 }
 
-@keyframes scrollTextFloat {
+@keyframes scrollIndicatorPulse {
   0%, 100% {
-    transform: translate(-50%, -50%) translateY(0);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
   }
   50% {
-    transform: translate(-50%, -50%) translateY(-10px);
-  }
-}
-
-.scroll-arrow {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.7);
-  animation: scrollArrowBounce 1.5s ease-in-out infinite;
-}
-
-@keyframes scrollArrowBounce {
-  0%, 100% {
-    transform: translateY(0);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translateY(5px);
+    transform: translate(-50%, -50%) scale(1.2);
     opacity: 1;
   }
 }
 
-.scroll-label {
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.8);
-  writing-mode: horizontal-tb;
-  text-orientation: mixed;
+.scroll-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: scrollDotMove 2s ease-in-out infinite;
+}
+
+@keyframes scrollDotMove {
+  0%, 100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
 }
 
 /* Mobile adjustments for scroll helper */
 @media (max-width: 768px) {
   .scroll-helper {
     right: 1rem;
-    width: 50px;
+    width: 35px;
     top: 35%;
-    height: 50%;
+    height: 45%;
   }
 
-  .scroll-helper-text {
-    padding: 0.75rem 0.4rem;
+  .scroll-helper-indicator {
+    width: 18px;
+    height: 18px;
   }
 
-  .scroll-label {
-    font-size: 0.65rem;
-  }
-
-  .scroll-arrow {
-    font-size: 1rem;
+  .scroll-dot {
+    width: 5px;
+    height: 5px;
   }
 }
 

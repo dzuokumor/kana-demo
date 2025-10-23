@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
@@ -11,6 +11,55 @@ import './App.css'
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const scrollHelperRef = useRef(null)
+
+  // Scroll helper functionality
+  useEffect(() => {
+    const scrollHelper = scrollHelperRef.current
+    if (!scrollHelper) return
+
+    let startY = 0
+    let startScrollY = 0
+
+    const handleStart = (e) => {
+      startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY
+      startScrollY = window.scrollY
+    }
+
+    const handleMove = (e) => {
+      e.preventDefault()
+      const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY
+      const deltaY = (currentY - startY) * 2 // Multiply for more sensitive scrolling
+      window.scrollTo(0, startScrollY - deltaY)
+    }
+
+    const handleEnd = () => {
+      // Smooth scroll behavior after drag
+      document.documentElement.style.scrollBehavior = 'smooth'
+      setTimeout(() => {
+        document.documentElement.style.scrollBehavior = 'auto'
+      }, 300)
+    }
+
+    // Mouse events
+    scrollHelper.addEventListener('mousedown', handleStart)
+    window.addEventListener('mousemove', (e) => {
+      if (e.buttons === 1) handleMove(e)
+    })
+    window.addEventListener('mouseup', handleEnd)
+
+    // Touch events
+    scrollHelper.addEventListener('touchstart', handleStart, { passive: false })
+    scrollHelper.addEventListener('touchmove', handleMove, { passive: false })
+    scrollHelper.addEventListener('touchend', handleEnd)
+
+    return () => {
+      scrollHelper.removeEventListener('mousedown', handleStart)
+      scrollHelper.removeEventListener('touchstart', handleStart)
+      scrollHelper.removeEventListener('touchmove', handleMove)
+      scrollHelper.removeEventListener('touchend', handleEnd)
+    }
+  }, [])
 
   return (
     <div className="app">
@@ -112,12 +161,10 @@ function App() {
           </div>
 
           {/* Scroll Helper */}
-          <div className="scroll-helper">
+          <div className="scroll-helper" ref={scrollHelperRef}>
             <div className="scroll-helper-line"></div>
-            <div className="scroll-helper-text">
-              <span className="scroll-arrow">↓</span>
-              <span className="scroll-label">SCROLL</span>
-              <span className="scroll-arrow">↓</span>
+            <div className="scroll-helper-indicator">
+              <span className="scroll-dot"></span>
             </div>
           </div>
         </section>
