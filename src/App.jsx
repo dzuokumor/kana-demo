@@ -157,31 +157,37 @@ function App() {
               title="Live Events"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Experience world-class DJs and performers every weekend."
               delay={0}
+              spotlightColor="rgba(255, 0, 110, 0.3)"
             />
             <DanceTileCard
               title="VIP Experience"
               description="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Exclusive access to premium lounges and bottle service."
               delay={0.1}
+              spotlightColor="rgba(0, 255, 255, 0.3)"
             />
             <DanceTileCard
               title="Private Parties"
               description="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Host your special events in our luxurious venue."
               delay={0.2}
+              spotlightColor="rgba(191, 0, 255, 0.3)"
             />
             <DanceTileCard
               title="Premium Sound"
               description="Duis aute irure dolor in reprehenderit in voluptate velit esse. State-of-the-art audio and lighting systems."
               delay={0.3}
+              spotlightColor="rgba(0, 255, 136, 0.3)"
             />
             <DanceTileCard
               title="Exclusive Bar"
               description="Excepteur sint occaecat cupidatat non proident, sunt in culpa. Craft cocktails and premium spirits selection."
               delay={0.4}
+              spotlightColor="rgba(255, 136, 0, 0.3)"
             />
             <DanceTileCard
               title="Late Night"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dancing until dawn in the heart of the city."
               delay={0.5}
+              spotlightColor="rgba(255, 0, 220, 0.3)"
             />
           </div>
         </div>
@@ -278,7 +284,7 @@ function App() {
         {/* Footer */}
         <footer className="footer">
           <div className="footer-container">
-            <p>&copy; 2024 KANA Club. All rights reserved.</p>
+            <p>&copy; 2025 KANA Club. All rights reserved. <span className="developer-divider">|</span> <a href="https://zuokumor-david-portfolio.vercel.app" target="_blank" rel="noopener noreferrer" className="developer-link">Developer</a></p>
             <div className="social-links">
               <a href="#" className="social-link">Instagram</a>
               <a href="#" className="social-link">Facebook</a>

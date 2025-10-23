@@ -2,7 +2,7 @@ import { useState } from 'react'
 import SpotlightCard from './SpotlightCard'
 import './DanceTileCard.css'
 
-function DanceTileCard({ title, description, delay = 0 }) {
+function DanceTileCard({ title, description, delay = 0, spotlightColor = "rgba(255, 0, 110, 0.3)" }) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -12,7 +12,7 @@ function DanceTileCard({ title, description, delay = 0 }) {
     >
       <SpotlightCard
         className={`dance-tile-card ${isHovered ? 'hovered' : ''}`}
-        spotlightColor="rgba(255, 0, 110, 0.3)"
+        spotlightColor={spotlightColor}
       >
         <div
           onMouseEnter={() => setIsHovered(true)}

@@ -3,47 +3,95 @@ import { useFrame } from '@react-three/fiber'
 import { Text3D, Center } from '@react-three/drei'
 import * as THREE from 'three'
 
+// Shared curve settings for text and background
+const CURVE_AMOUNT_X = 0.08  // Horizontal curve (affects left/right ends)
+const CURVE_AMOUNT_Y = 0.12  // Vertical curve
+
+function CurvedText3D({ label, color, hovered, onPointerEnter, onPointerLeave, onClick }) {
+  const textRef = useRef()
+
+  // Apply curvature to text geometry after it's loaded
+  useFrame(() => {
+    if (textRef.current && textRef.current.geometry) {
+      const geometry = textRef.current.geometry
+
+      if (!geometry.userData.curved) {
+        const positions = geometry.attributes.position
+
+        // Apply curvature to match the background
+        for (let i = 0; i < positions.count; i++) {
+          const x = positions.getX(i)
+          const y = positions.getY(i)
+          const currentZ = positions.getZ(i)
+
+          // Calculate curve amount - same formula as background
+          const curveZ = -(x * x * CURVE_AMOUNT_X + y * y * CURVE_AMOUNT_Y)
+
+          positions.setZ(i, currentZ + curveZ)
+        }
+
+        positions.needsUpdate = true
+        geometry.computeVertexNormals()
+        geometry.userData.curved = true
+      }
+    }
+  })
+
+  return (
+    <Text3D
+      ref={textRef}
+      font="/fonts/helvetiker_regular.typeface.json"
+      size={0.25}
+      height={0.05}
+      curveSegments={12}
+      bevelEnabled
+      bevelThickness={0.01}
+      bevelSize={0.01}
+      bevelOffset={0}
+      bevelSegments={5}
+      onClick={onClick}
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
+    >
+      {label}
+      <meshStandardMaterial
+        color={hovered ? '#ffffff' : '#dddddd'}
+        emissive={hovered ? color : '#000000'}
+        emissiveIntensity={hovered ? 0.6 : 0}
+        toneMapped={false}
+      />
+    </Text3D>
+  )
+}
+
 function Text3DCard({ label, color }) {
   const groupRef = useRef()
+  const bgMeshRef = useRef()
   const [hovered, setHovered] = useState(false)
+
+  // Create curved background geometry
+  const curvedGeometry = useMemo(() => {
+    const geometry = new THREE.PlaneGeometry(1.5, 0.7, 32, 32)
+    const positions = geometry.attributes.position
+
+    // Apply curvature to make it wrap around the disco ball
+    for (let i = 0; i < positions.count; i++) {
+      const x = positions.getX(i)
+      const y = positions.getY(i)
+
+      // Calculate curve amount - same formula as text
+      const z = -(x * x * CURVE_AMOUNT_X + y * y * CURVE_AMOUNT_Y)
+
+      positions.setZ(i, z)
+    }
+
+    geometry.computeVertexNormals()
+    return geometry
+  }, [])
 
   return (
     <group ref={groupRef}>
-      <Suspense fallback={null}>
-        <Center>
-          <Text3D
-            font="/fonts/helvetiker_regular.typeface.json"
-            size={0.25}
-            height={0.05}
-            curveSegments={12}
-            bevelEnabled
-            bevelThickness={0.01}
-            bevelSize={0.01}
-            bevelOffset={0}
-            bevelSegments={5}
-            onClick={() => console.log(`Clicked ${label}`)}
-            onPointerEnter={() => {
-              setHovered(true)
-              document.body.style.cursor = 'pointer'
-            }}
-            onPointerLeave={() => {
-              setHovered(false)
-              document.body.style.cursor = 'default'
-            }}
-          >
-            {label}
-            <meshStandardMaterial
-              color={hovered ? '#ffffff' : '#dddddd'}
-              emissive={hovered ? color : '#000000'}
-              emissiveIntensity={hovered ? 0.6 : 0}
-              toneMapped={false}
-            />
-          </Text3D>
-        </Center>
-      </Suspense>
-
-      <mesh position={[0, 0, -0.15]}>
-        <planeGeometry args={[1.5, 0.7]} />
+      <mesh ref={bgMeshRef} position={[0, 0, 0]} geometry={curvedGeometry}>
         <meshPhysicalMaterial
           color="#1a1a2e"
           transparent
@@ -58,6 +106,25 @@ function Text3DCard({ label, color }) {
           ior={1.45}
         />
       </mesh>
+
+      <Suspense fallback={null}>
+        <Center position={[0, 0, 0.2]}>
+          <CurvedText3D
+            label={label}
+            color={color}
+            hovered={hovered}
+            onClick={() => console.log(`Clicked ${label}`)}
+            onPointerEnter={() => {
+              setHovered(true)
+              document.body.style.cursor = 'pointer'
+            }}
+            onPointerLeave={() => {
+              setHovered(false)
+              document.body.style.cursor = 'default'
+            }}
+          />
+        </Center>
+      </Suspense>
     </group>
   )
 }
