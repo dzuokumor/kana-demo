@@ -8,6 +8,7 @@ import SuspensionString from './components/SuspensionString'
 import BackgroundEffects from './components/BackgroundEffects'
 import DanceTileCard from './components/DanceTileCard'
 import Carousel from './components/Carousel'
+import DJPlayer from './components/DJPlayer'
 import './App.css'
 
 function App() {
@@ -223,6 +224,9 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* DJ Music Player */}
+      <DJPlayer />
     </div>
   )
 }

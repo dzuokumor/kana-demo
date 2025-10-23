@@ -44,11 +44,18 @@ function Text3DCard({ label, color }) {
 
       <mesh position={[0, 0, -0.15]}>
         <planeGeometry args={[1.5, 0.7]} />
-        <meshStandardMaterial
-          color="#000000"
+        <meshPhysicalMaterial
+          color="#1a1a2e"
           transparent
-          opacity={0.7}
+          opacity={0.95}
           side={THREE.DoubleSide}
+          transmission={0.05}
+          thickness={0.5}
+          roughness={0.3}
+          clearcoat={0.6}
+          clearcoatRoughness={0.3}
+          metalness={0.15}
+          ior={1.45}
         />
       </mesh>
     </group>
